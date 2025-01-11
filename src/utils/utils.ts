@@ -15,3 +15,25 @@ export const truncateText = (
   if (!text) return "";
   return text.length > maxLength ? `${text.slice(0, maxLength)}..` : text;
 };
+
+/**
+ * Converts a date string from "DD-MM-YYYY" format to "DD Month YYYY".
+ * @param {string} dateString - The date string in "DD-MM-YYYY" format.
+ * @returns {string} - The formatted date in "DD Month YYYY" format.
+ */
+export const convertDateToWords = (dateString: string) => {
+  if (!dateString) return "";
+
+  // Replace '-' with '/' to ensure compatibility across browsers
+  const formattedInput = dateString.replace(/-/g, "/");
+
+  // Create a Date object
+  const date = new Date(formattedInput);
+
+  // Format using built-in Date methods
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+};

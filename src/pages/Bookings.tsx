@@ -1,46 +1,22 @@
-import React, { useState } from "react";
+import Booking from "../components/bookings/Booking";
 import { useGetData } from "../hooks/useGetData";
+import { IBooking } from "../interfaces";
 
-function MultiImageUpload() {
+function Bookings() {
   const { data } = useGetData("bookingsList", "bookings");
-  const bookings = data?.data?.slice(0, 50);
-  const [images, setImages] = useState([]);
+  const bookings: IBooking[] = data?.data?.slice(0, 50);
   console.log(bookings);
-  // const handleImageChange = (event) => {
-  //   const files = Array.from(event.target.files); // تحويل الـ FileList إلى Array
-  //   setImages((prevImages) => [...prevImages, ...files]);
-  // };
 
   return (
-    <></>
-    // <div>
-    //   <h1>Upload Multiple Images</h1>
-    //   <input
-    //     type="file"
-    //     accept="image/*"
-    //     multiple
-    //     onChange={handleImageChange}
-    //   />
-    //   <div
-    //     style={{
-    //       display: "flex",
-    //       gap: "10px",
-    //       flexWrap: "wrap",
-    //       marginTop: "20px",
-    //     }}
-    //   >
-    //     {images.map((image, index) => (
-    //       <div key={index}>
-    //         <img
-    //           src={URL.createObjectURL(image)}
-    //           alt={`preview-${index}`}
-    //           style={{ width: "100px", height: "100px", objectFit: "cover" }}
-    //         />
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
+    <div className="p-2 md:p-5 ">
+      <h1 className="text-[35px] font-bold pb-5">Bookings</h1>
+      <div className="flex flex-col md:flex-row flex-wrap  justify-center items-center gap-10">
+        {bookings?.map((booking) => (
+          <Booking booking={booking} key={booking?.id} />
+        ))}
+      </div>
+    </div>
   );
 }
 
-export default MultiImageUpload;
+export default Bookings;

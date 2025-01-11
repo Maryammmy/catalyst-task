@@ -3,7 +3,7 @@ import { InputHTMLAttributes } from "react";
 type IProps = InputHTMLAttributes<HTMLInputElement>;
 
 function Input({ ...rest }: IProps) {
-  return <input type="text" {...rest} />;
+  return <input {...rest} />;
 }
 
 export default Input;

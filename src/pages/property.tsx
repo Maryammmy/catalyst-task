@@ -38,7 +38,6 @@ function Property() {
       <p className="text-stone-500 font-medium max-w-5xl pt-3">
         {property?.description}
       </p>
-
       <div className="flex  justify-center pt-10 gap-10">
         <Link
           to="/booking"

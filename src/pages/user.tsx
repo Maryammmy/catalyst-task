@@ -1,5 +1,5 @@
 import { useGetData } from "../hooks/useGetData";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { IUser } from "../interfaces";
 import Image from "../components/ui/Image";
 import { BASE_URL } from "../utils/constants";
