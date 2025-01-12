@@ -1,12 +1,14 @@
 import { useFormik } from "formik";
 import Modal from "../ui/Modal";
 import Button from "../ui/Button";
-import { createNewUserAPI } from "../../services/updateService";
-import { IUser } from "../../interfaces";
+import { createNewUserAPI } from "../../services/userService";
 import toast from "react-hot-toast";
 import Input from "../ui/Input";
-import { inputs } from "../../data";
+import { userInputs } from "../../data";
 import { useState } from "react";
+import { User } from "../../interfaces/userInterface";
+import { ErrorResponse } from "../../interfaces";
+import { userValidationSchema } from "../validation/userValidation";
 
 interface IProps {
   isOpen: boolean;
@@ -28,18 +30,25 @@ export default function AddModal({ isOpen, close }: IProps) {
         toast.error("Please upload a valid image (jpg, png).");
         return;
       }
-      file.type.startsWith("image")
-        ? setPathImage(file.name)
-        : setPathVideo(file.name);
+      if (file.type.startsWith("image")) {
+        setPathImage(file.name);
+      } else {
+        setPathVideo(file.name);
+      }
       formik.setFieldValue(name, file);
     }
   };
-
-  const createFormData = (values: IUser) => {
+  const handleClose = () => {
+    formik.resetForm();
+    setPathImage("");
+    setPathVideo("");
+    close();
+  };
+  const createFormData = (values: User) => {
     const formData = new FormData();
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        formData.append(key, value as unknown as Blob);
+        formData.append(key, value);
       }
     });
     return formData;
@@ -52,74 +61,82 @@ export default function AddModal({ isOpen, close }: IProps) {
       phone: "",
       role: "",
       profile_image: "",
-      intro_videos: "",
+      intro_video: "",
     },
-    onSubmit: async (values: IUser) => {
+    validationSchema: userValidationSchema,
+    onSubmit: async (values: User) => {
       try {
         const formData = createFormData(values);
         const data = await createNewUserAPI("users", formData);
         toast.success(data?.data?.message);
-      } catch (error: any) {
-        if (error?.response?.data?.messages) {
-          const messages = error.response.data.messages;
-          inputs.forEach((input) => {
-            const fieldError = messages[input.name];
-            if (fieldError) {
-              toast.error(fieldError);
-            }
+      } catch (error) {
+        const customError = error as ErrorResponse;
+        const messages = customError?.response?.data?.messages;
+        if (messages) {
+          Object.entries(messages).forEach(([field, message]) => {
+            toast.error(`${field}: ${message}`);
           });
+        } else {
+          toast.error("An unexpected error occurred.");
         }
       } finally {
-        close();
-        setPathImage("");
-        setPathVideo("");
+        handleClose();
       }
     },
   });
 
   return (
-    <Modal isOpen={isOpen} close={close} title="Add User">
+    <Modal isOpen={isOpen} close={handleClose} title="Add User">
       <form onSubmit={formik.handleSubmit} className="pt-3 space-y-4">
-        {inputs.map((input) => (
-          <div key={input.name}>
-            <label
-              htmlFor={input.name}
-              className="block text-sm font-medium text-gray-700 cursor-pointer"
-            >
-              {input.label}
-            </label>
+        {userInputs.map((input) => {
+          const nameKey = input.name as keyof User;
+          return (
+            <div key={input.name}>
+              <label
+                htmlFor={input.name}
+                className="block text-sm font-medium text-gray-700 cursor-pointer"
+              >
+                {input.label}
+              </label>
 
-            {input.type === "file" ? (
-              <>
+              {input.type === "file" ? (
+                <>
+                  <Input
+                    type="file"
+                    name={input.name}
+                    id={input.name}
+                    className="hidden"
+                    onChange={(e) => handleFileChange(e, input.name)}
+                  />
+                  <p className=" break-words py-2 mt-1 block w-full rounded-md shadow-sm outline-none sm:text-sm ">
+                    {input.name === "profile_image"
+                      ? pathImage || (
+                          <span className="text-gray-400">Upload Image</span>
+                        )
+                      : pathVideo || (
+                          <span className="text-gray-400">Upload Video</span>
+                        )}
+                  </p>
+                </>
+              ) : (
                 <Input
-                  type="file"
+                  type={input.type}
                   name={input.name}
-                  id={input.name}
-                  className="hidden"
-                  onChange={(e) => handleFileChange(e, input.name)}
+                  placeholder={input.placeholder}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values[nameKey]}
+                  className="py-2 mt-1 block w-full rounded-md shadow-sm outline-none sm:text-sm"
                 />
-                <p className=" break-words py-2 mt-1 block w-full rounded-md shadow-sm outline-none sm:text-sm ">
-                  {input.name === "profile_image"
-                    ? pathImage || (
-                        <span className="text-gray-400">Upload Image</span>
-                      )
-                    : pathVideo || (
-                        <span className="text-gray-400">Upload Video</span>
-                      )}
-                </p>
-              </>
-            ) : (
-              <Input
-                type={input.type}
-                name={input.name}
-                placeholder={input.placeholder}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="py-2 mt-1 block w-full rounded-md shadow-sm outline-none sm:text-sm"
-              />
-            )}
-          </div>
-        ))}
+              )}
+              {formik.errors[nameKey] && formik.touched[nameKey] && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors[nameKey]}
+                </div>
+              )}
+            </div>
+          );
+        })}
         <div className="flex justify-end space-x-2">
           <Button
             type="submit"
@@ -129,7 +146,7 @@ export default function AddModal({ isOpen, close }: IProps) {
           </Button>
           <Button
             type="button"
-            onClick={close}
+            onClick={handleClose}
             className="bg-gray-500 hover:bg-gray-400 text-white w-[100px] py-2 rounded"
           >
             Cancel
