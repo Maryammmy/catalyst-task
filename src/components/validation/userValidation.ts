@@ -11,7 +11,12 @@ export const userValidationSchema = Yup.object({
     .required("Phone number is required.")
     .matches(/^\d+$/, "Phone number should contain only numbers.")
     .min(10, "Phone number should be at least 10 digits."),
-  role: Yup.string().required("Role is required."),
+  role: Yup.string()
+    .required("Role is required.")
+    .oneOf(
+      ["client", "admin", "owner"],
+      "Role must be one of: client, admin, owner."
+    ),
   profile_image: Yup.mixed().required("Profile image is required."),
   intro_video: Yup.mixed().notRequired(), // Optional field
 });
