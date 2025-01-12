@@ -112,7 +112,7 @@ export default function UpdateModal({ isOpen, close, id }: IProps) {
     if (property) {
       formik.setValues({
         description: property?.description || "",
-        images: property?.images || [],
+        images: property?.images ? [] : [],
         location: property?.location || "",
         name: property?.name || "",
         price: property?.price || "",

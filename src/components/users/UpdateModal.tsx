@@ -98,7 +98,7 @@ export default function UpdateModal({ isOpen, close, id }: IProps) {
         email: user?.email || "",
         phone: user?.phone || "",
         role: user?.role || "",
-        profile_image: user?.profile_image || "",
+        profile_image: user?.profile_image ? "" : "",
         intro_video: user?.intro_video ? "" : "",
       });
       setPathImage(user?.profile_image || "");
@@ -131,12 +131,10 @@ export default function UpdateModal({ isOpen, close, id }: IProps) {
                   />
                   <p className="break-words py-2 mt-1 block w-full rounded-md shadow-sm outline-none sm:text-sm">
                     {input.name === "profile_image"
-                      ? pathImage ||
-                        formik.values.profile_image || (
+                      ? pathImage || (
                           <span className="text-gray-400">Upload Image</span>
                         )
-                      : pathVideo ||
-                        formik.values.intro_video || (
+                      : pathVideo || (
                           <span className="text-gray-400">Upload Video</span>
                         )}
                   </p>

@@ -17,6 +17,6 @@ export const userValidationSchema = Yup.object({
       ["client", "admin", "owner"],
       "Role must be one of: client, admin, owner."
     ),
-  profile_image: Yup.mixed().required("Profile image is required."),
+  profile_image: Yup.mixed(),
   intro_video: Yup.mixed().notRequired(), // Optional field
 });
