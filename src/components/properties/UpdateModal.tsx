@@ -21,6 +21,15 @@ export default function UpdateModal({ isOpen, close, id }: IProps) {
   const property: Property = data?.data;
   const [pathImages, setPathImages] = useState<string[] | string>([]);
   const [pathVideo, setPathVideo] = useState<string>("");
+  const formattedPathImages =
+    typeof pathImages === "string" &&
+    pathImages.startsWith("[") &&
+    pathImages.endsWith("]")
+      ? pathImages.slice(2, -2)
+      : Array.isArray(pathImages)
+      ? pathImages.join(", ")
+      : pathImages;
+
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     name: string
@@ -149,8 +158,8 @@ export default function UpdateModal({ isOpen, close, id }: IProps) {
                   />
                   <p className="break-words py-2 mt-1 block w-full rounded-md shadow-sm outline-none sm:text-sm">
                     {input.name === "images" ? (
-                      pathImages.length > 0 ? (
-                        pathImages
+                      formattedPathImages.length > 0 ? (
+                        formattedPathImages
                       ) : (
                         <span className="text-gray-400">Upload Images</span>
                       )

@@ -70,7 +70,7 @@ export default function UpdateModal({ isOpen, close, id }: IProps) {
       profile_image: "",
       intro_video: "",
     },
-    validationSchema: userValidationSchema,
+    validationSchema: userValidationSchema(true),
     onSubmit: async (values: User) => {
       try {
         const formData = createFormData(values);

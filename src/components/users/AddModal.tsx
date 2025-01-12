@@ -63,7 +63,7 @@ export default function AddModal({ isOpen, close }: IProps) {
       profile_image: "",
       intro_video: "",
     },
-    validationSchema: userValidationSchema,
+    validationSchema: userValidationSchema(false),
     onSubmit: async (values: User) => {
       try {
         const formData = createFormData(values);
