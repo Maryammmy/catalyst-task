@@ -57,7 +57,7 @@ export default function Users() {
         <CardSkeleton cards={20} />
       ) : filteredUsers?.length ? (
         <div className="p-2 md:p-5">
-          <div className="mx-5 md:mx-10 lg:mx-1 xl:mx-20 flex justify-between gap-10">
+          <div className="mx-10 lg:mx-1 xl:mx-20 flex justify-between gap-10">
             <h1 className="text-[35px] font-bold pb-5">Users</h1>
             <div>
               <div className="flex flex-col items-end md:items-start md:flex-row gap-4 py-3 md:py-0 md:pt-2">
