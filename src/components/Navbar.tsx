@@ -54,7 +54,7 @@ export default function Navbar() {
               <li key={name}>
                 <NavLink
                   to={path}
-                  className="block py-2 px-3 text-white font-semibold rounded hover:text-black hover:transition-all  md:border-0 md:rounded-full  dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className="block py-2 px-4 text-white font-semibold rounded hover:text-black hover:transition-all  md:border-0 md:rounded-lg  dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                 >
                   {name}
                 </NavLink>
