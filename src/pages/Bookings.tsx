@@ -45,7 +45,7 @@ function Bookings() {
         <CardSkeleton cards={20} />
       ) : bookings?.length ? (
         <div className="p-2 md:p-5">
-          <div className="md:mx-10 lg:mx-1 xl:mx-20 flex justify-between">
+          <div className="mx-5 md:mx-10 lg:mx-1 xl:mx-20 flex justify-between">
             <h1 className="text-[35px] font-bold pb-5">Bookings</h1>
           </div>
           <div className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-10">
