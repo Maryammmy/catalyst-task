@@ -7,7 +7,7 @@ import { IBooking } from "../interfaces/bookingInterface";
 import Pagination from "../components/pagination/Pagination";
 import CardSkeleton from "../components/skeleton/CardSkeleton";
 
-const ITEMS_PER_PAGE = 50; // Number of items per page
+const ITEMS_PER_PAGE = 48; // Number of items per page
 
 function Bookings() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);

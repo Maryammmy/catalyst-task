@@ -9,7 +9,7 @@ import { IUser } from "../interfaces/userInterface";
 import Pagination from "../components/pagination/Pagination";
 import CardSkeleton from "../components/skeleton/CardSkeleton";
 
-const ITEMS_PER_PAGE = 50;
+const ITEMS_PER_PAGE = 48;
 
 export default function Users() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);

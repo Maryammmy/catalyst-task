@@ -7,7 +7,7 @@ import { IProperty } from "../interfaces/propertyInterface";
 import Pagination from "../components/pagination/Pagination";
 import CardSkeleton from "../components/skeleton/CardSkeleton";
 
-const ITEMS_PER_PAGE = 50; // Number of items per page
+const ITEMS_PER_PAGE = 48; // Number of items per page
 
 export default function Properties() {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
