@@ -30,7 +30,6 @@ export default function AddModal({ isOpen, close, id }: IProps) {
         const imageFiles = Array.from(files).filter((file) =>
           validTypes.includes(file.type)
         );
-        console.log(imageFiles);
         if (imageFiles.length === 0) {
           toast.error("Please upload valid images (jpg, png).");
           return;
@@ -77,7 +76,6 @@ export default function AddModal({ isOpen, close, id }: IProps) {
       price: "",
       images: [],
       video: "",
-      user_id: id,
     },
     validationSchema: propertyValidationSchema,
     onSubmit: async (values: Property) => {
@@ -98,7 +96,6 @@ export default function AddModal({ isOpen, close, id }: IProps) {
       }
     },
   });
-
   const handleClose = () => {
     formik.resetForm();
     setPathImages([]);
@@ -107,7 +104,7 @@ export default function AddModal({ isOpen, close, id }: IProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} close={handleClose} title="Update Property">
+    <Modal isOpen={isOpen} close={handleClose} title="Add Property">
       <form onSubmit={formik.handleSubmit} className="pt-3 space-y-4">
         {propertyInputs.map((input) => {
           const nameKey = input.name as keyof Property;
@@ -170,7 +167,7 @@ export default function AddModal({ isOpen, close, id }: IProps) {
             type="submit"
             className="bg-blue-500 hover:bg-blue-400 text-white w-[100px] py-2 rounded"
           >
-            Update
+            Add
           </Button>
           <Button
             type="button"
